@@ -3,7 +3,6 @@
 #ifndef BIBLIOTECA_H
 #define BIBLIOTECA_H
 #define qt_max 100
-
 typedef struct {
     int id;
     char titulo[100];
@@ -11,16 +10,20 @@ typedef struct {
     int ano;
     int disponivel;
 } Livro;
-
+typedef struct {
+    int id;
+    char nome[30];
+    char senha[100];
+    char tipo[10];
+} User;
 void cadastrarLivro(Livro *livros, int *quantidade);
 void listarLivros(Livro *livros, int quantidade);
 void buscarLivro(Livro *livros, int quantidade);
 void emprestarLivro(Livro *livros, int quantidade);
 void devolverLivro(Livro *livros, int quantidade);
-
 void salvarLivros(Livro *livros, int quantidade);
 int carregarLivros(Livro *livros);
-
+int login_v(char user[30], char senha[100], User *users);
 
 void cadastrarLivro(Livro *livros, int *quantidade){
     if (*quantidade >= qt_max) {
@@ -166,5 +169,34 @@ int carregarLivros(Livro *livros){
     fclose(arquivo);
     return quantidade;
 }
-
+int login_v(char user[30], char senha[100], User *users){
+    FILE *arquivo1;
+    arquivo1 = fopen("users.txt", "r");
+    if (arquivo1 == NULL) {
+        return 0;
+    }
+    int quantidade = 0;
+    while (
+        fscanf(
+            arquivo1,
+            "%d|%29[^|]|%99[^|]|%10[^\n]",
+            &users[quantidade].id,
+            users[quantidade].nome,
+            users[quantidade].senha,
+            users[quantidade].tipo
+        ) == 4
+    ) {
+        quantidade++;
+    }
+    fclose(arquivo1);
+    
+    for(int i = 0; i < quantidade; i++){
+        if(strcmp(users[i].nome, user) == 0){
+            if(strcmp(users[i].senha, senha) == 0){
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
 #endif
