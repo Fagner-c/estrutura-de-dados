@@ -6,7 +6,7 @@ int main() {
     char senha[100];
    
     do{
-         printf("Informe o usuario: ");
+        printf("Informe o usuario: ");
         scanf("%s", &user);
         printf("Informe a senha: ");
         scanf("%s", &senha);

@@ -1,0 +1,2 @@
+1|Joao|1234|ALUNO
+2|Maria|9999|ADMIN
